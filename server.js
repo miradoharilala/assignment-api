@@ -3,9 +3,15 @@ let app = express();
 let bodyParser = require('body-parser');
 
 let assignment = require('./routes/assignments');
-let user = require('./routes/utilisateurs');
+
+let utilisateur = require('./routes/utilisateurs');
+
+let matiere = require('./routes/matieres');
+let eleve = require('./routes/eleves');
+
 
 let mongoose = require('mongoose');
+// const utilisateur = require('./model/utilisateur');
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
 
@@ -51,10 +57,20 @@ app.route(prefix + '/assignments')
   .post(assignment.postAssignment)
   .put(assignment.updateAssignment);
 
+app.route(prefix + '/eleves')
+  .get(eleve.getEleves);
+
+app.route(prefix + '/matieres')
+  .get(matiere.getMatieres);
 
 app.route(prefix + '/assignments/:id')
   .get(assignment.getAssignment)
   .delete(assignment.deleteAssignment);
+
+app.route(prefix + '/utilisateurs')
+  .get(utilisateur.getUtilisateur)
+  .post(utilisateur.createUtilisateur)
+  .put(utilisateur.updateUtilisateur);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");

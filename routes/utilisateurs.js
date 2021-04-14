@@ -62,7 +62,6 @@ function deleteUtilisateur(req, res) {
 }
 
 module.exports = {
-  getUtilisateurs,
   createUtilisateur,
   getUtilisateur,
   updateUtilisateur,

@@ -16,21 +16,21 @@ function getAssignments(req, res){
 
 // Récupérer tous les assignments (GET), AVEC PAGINATION
 function getMatieres(req, res) {
-  var aggregateQuery = Matiere.aggregate();
-  
-  Matiere.aggregatePaginate(
-    aggregateQuery,
-    {
-      page: parseInt(req.query.page) || 1,
-      limit: parseInt(req.query.limit) || 10,
-    },
-    (err, assignments) => {
+  const key = req.query.key || '';
+
+  Matiere.find(
+    { $or: [
+      {
+        nom: { $regex: key }
+      },
+    ] },
+    (err, matieres) => {
       if (err) {
-        res.send(err);
+        res.send(err)
       }
-      res.send(assignments);
-    }
-  );
+
+      res.send(matieres);
+    });
 }
 
 module.exports = {

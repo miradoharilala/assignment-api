@@ -16,21 +16,19 @@ function getAssignments(req, res){
 
 // Récupérer tous les assignments (GET), AVEC PAGINATION
 function getEleves(req, res) {
-  var aggregateQuery = Eleve.aggregate();
-  
-  Eleve.aggregatePaginate(
-    aggregateQuery,
-    {
-      page: parseInt(req.query.page) || 1,
-      limit: parseInt(req.query.limit) || 10,
-    },
-    (err, assignments) => {
+  const key = req.query.key || '';
+
+  Eleve.find(
+      {
+        nom: { $regex: key }
+      },
+    (err, eleves) => {
       if (err) {
-        res.send(err);
+        res.send(err)
       }
-      res.send(assignments);
-    }
-  );
+
+      res.send(eleves);
+    });
 }
 
 module.exports = {

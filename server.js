@@ -3,17 +3,14 @@ let app = express();
 let bodyParser = require('body-parser');
 
 let assignment = require('./routes/assignments');
-
 let utilisateur = require('./routes/utilisateurs');
-
 let matiere = require('./routes/matieres');
 let eleve = require('./routes/eleves');
-
+let authentification = require('./authentification/authentification');
 
 let mongoose = require('mongoose');
-// const utilisateur = require('./model/utilisateur');
 mongoose.Promise = global.Promise;
-//mongoose.set('debug', true);
+mongoose.set('debug', true);
 
 // remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s
 //const uri = 'mongodb+srv://mb:P7zM3VePm0caWA1L@cluster0.zqtee.mongodb.net/assignments?retryWrites=true&w=majority';
@@ -46,6 +43,7 @@ app.use((req, res, next) =>  {
 // Pour les formulaires
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+//app.use('/authentification/authentification',authentification)
 
 let port = process.env.PORT || 8010;
 
@@ -71,6 +69,13 @@ app.route(prefix + '/utilisateurs')
   .get(utilisateur.getUtilisateur)
   .post(utilisateur.createUtilisateur)
   .put(utilisateur.updateUtilisateur);
+
+
+app.route(prefix + '/authentification')
+  // .post(authentification.inscription)
+   //.get(authentification.getToken)
+  .get(authentification.logout)
+  .post(authentification.login);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");

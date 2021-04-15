@@ -62,7 +62,7 @@ function login(req,res){
           expiresIn: 86400
         });
         
-        res.status(200).send({ auth: true, token: token });
+        res.status(200).send({ auth: true, token: token, nom: utilisateur.nom });
       });
 };
 
